@@ -123,12 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BMI.c" />
     <ClCompile Include="calorie.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="test_calorie.c" />
     <ClCompile Include="Tips.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BMI.h" />
     <ClInclude Include="calorie.h" />
     <ClInclude Include="Tips.h" />
   </ItemGroup>

@@ -18,5 +18,25 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BMI.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="calorie.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tips.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BMI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="calorie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tips.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

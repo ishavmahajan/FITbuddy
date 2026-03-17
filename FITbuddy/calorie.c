@@ -1,8 +1,10 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include "calorie.h"
+
 
 // Array to store entries in memory
 struct FoodEntry entries[MAX_ENTRIES];
@@ -19,7 +21,7 @@ void loadCaloriesFromFile()
     if (!file) return;  // File might not exist yet
 
     entryCount = 0;
-    while (fscanf(file, "%10[^,],%49[^,],%d\n",
+    while (fscanf_s(file, "%10[^,],%49[^,],%d\n",
         entries[entryCount].date,
         entries[entryCount].foodName,
         &entries[entryCount].calories) == 3)
