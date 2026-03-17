@@ -123,8 +123,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BMI.c" />
+    <ClCompile Include=".c" />
     <ClCompile Include="calorie.c" />
+    <ClCompile Include="log_firstweight.cpp" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Tips.c" />
   </ItemGroup>

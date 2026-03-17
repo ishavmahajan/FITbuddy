@@ -38,15 +38,39 @@ int main(int argc, char* argv[]) {
             printf("Workout Tracker - Coming Soon\n");
             break;
         case 3:
-            printf("BMI & Weight Feature\n");
-			printf("1. Calculate BMI & Catergories your bodyweight:\n");
-			printf("2. Log Weight\n");
-			printf("3. Set your goal weight\n");
-			printf("4. View Weight History\n");
+            printf("\n===== BMI & Weight Module =====\n");
+            printf("1. Log weight\n");
+			printf("2. BMI Calculator\n");
+            printf("3. Set BMI goal\n");
+            printf("4. View weight history\n");
+            printf("5. Delete weight \n");
+			printf("6. Add weight\n");
+            printf("7. Save and exit\n");
+            printf("Choose: ");
 			scanf_s("%d", &choice);
             switch (choice)
             {
             case 1:
+                printf("1. Log weight ");
+                break;
+            case 2:
+                printf("2. BMI Calculator\n");
+				break;
+            case 3:
+                printf("3. Set BMI goal\n");
+				break;
+            case 4:
+                printf("4. View weight history\n");
+				break;
+            case 5:
+                printf("5. Delete weight \n");
+                break;
+            case 6:
+                printf("6. Add weight\n");
+                break;
+            case 7:
+                printf("7. Save and exit\n");
+                break;
             default:
                 break;
             }
