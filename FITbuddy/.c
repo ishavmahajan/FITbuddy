@@ -19,16 +19,52 @@ const char* get_bmi_category(float bmi) {
     return "Obese";
 }
 
+int is_valid_date(const char* date) {
+    int y, m, d;
+
+    // Cheking format YYYY-MM-DD
+    if (scanf_s(date, "%4d-%2d-%2d", &y, &m, &d) != 3)
+        return 0;
+
+    // =Checking valid range of years
+    if (y < 1900 || y > 2100) return 0;
+    if (m < 1 || m > 12) return 0;
+    if (d < 1 || d > 31) return 0;
+
+    // Days in a month maxium
+    int days_in_month[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+
+	// Checking leap year for February
+    if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0))
+        days_in_month[1] = 29;
+
+    if (d > days_in_month[m - 1])
+        return 0;
+
+    return 1;
+}
+
+
 void log_weight(float height_cm) {
     float weight;
     char date[11];
 
     printf("Enter weight (kg): ");
     scanf_s("%f", &weight);
+    if (weight <= 0) {
+		printf("Error: Invalid weight!\n");
+		printf("Weight must be greater than 0.\n");
+		printf("Please try again.\n");
+        return;
+    }
+    do {
+        printf("Enter date (YYYY-MM-DD): ");
+        scanf_s("%10s", date, (unsigned)_countof(date));
 
-    printf("Enter date (YYYY-MM-DD): ");
-    scanf_s("%10s", date, (unsigned)_countof(date));
-
+        if (!is_valid_date(date)) {
+            printf("❌ Invalid date format or value. Try again.\n");
+        }
+	} while (!is_valid_date(date));
     add_weight(weight, date, height_cm);
 }
 
