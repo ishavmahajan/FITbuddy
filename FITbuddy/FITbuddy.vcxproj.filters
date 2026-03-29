@@ -16,9 +16,6 @@
     <Filter Include="Source Files\BMI">
       <UniqueIdentifier>{dc437903-6c4b-4db7-97e2-6bd3b79e1f7e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Other functions">
-      <UniqueIdentifier>{26715d5c-1e4d-4993-bf4c-f8eaeb704686}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -32,9 +29,6 @@
     </ClCompile>
     <ClCompile Include=".c">
       <Filter>Source Files\BMI</Filter>
-    </ClCompile>
-    <ClCompile Include="log_firstweight.cpp">
-      <Filter>Source Files\Other functions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

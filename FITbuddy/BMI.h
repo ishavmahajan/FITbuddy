@@ -1,32 +1,26 @@
-#pragma once
-#define BMI_DATE 11
-#define ENTRIES 100
-#define DATA_FILE "BMI.txt"
-typedef struct Weight_Entry {
-	float weight_kg;
-	float bmi;
-	float height_cm;
-	char date[BMI_DATE];
-}; Weight_Entry;
+#ifndef BMI_H
+#define BMI_H
 
-extern Weight_Entry entries[ENTRIES];
-extern int entry_counting;
-// Basic functional prototypes for BMI calculator
-void  bmi_set_height_cm(float height_cm);
-float bmi_get_height_cm(void);
-void  bmi_set_data_file(const char* path);
+#define MAX_ENTRIES 500
+
+typedef struct {
+    float weight_kg;     // > 0
+    float bmi;           // auto-calculated
+    char  date[11];      // YYYY-MM-DD
+} Weight_Entry;
+
+extern Weight_Entry history[MAX_ENTRIES];
+extern int entry_count;
+
+// Function declarations
+void log_weight(float height_cm);
 float calculate_bmi(float weight_kg, float height_cm);
 const char* get_bmi_category(float bmi);
-float Set_BMT_goal(void);
+void view_weight_history();
+void load_weight_from_file();
+void save_weight_to_file();
+float add_weight(float weight, const char* date, float height_cm);
+void delete_weight(int index);
+float set_bmi_goal(float goal_weight, float height_cm);
 
-// Calculate BMI based on weight and height
-void  log_weight(float weight_kg);
-void  view_weight_history(void);
-void  load_weight_from_file(void);
-void  save_weight_to_file(void);
-float Add_weight(void);
-void  Delete_weight(void);
-
-
-
-
+#endif
