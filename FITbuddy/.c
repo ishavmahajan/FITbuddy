@@ -19,30 +19,66 @@ const char* get_bmi_category(float bmi) {
     return "Obese";
 }
 
-int is_valid_date(const char* date) {
+int valid_date(const char* date) {
+    if (date == NULL) {
+        printf("Error: Date cannot be null!\n");
+        return 0;
+    }
+
+    
+    if (strlen(date) != 10) {
+        printf("Error: Invalid date format! Use YYYY-MM-DD.\n");
+        return 0;
+    }
+
+    
+    if (date[4] != '-' || date[7] != '-') {
+        printf("Error: Invalid date format! Use YYYY-MM-DD.\n");
+        return 0;
+    }
+
     int y, m, d;
-
-    // Cheking format YYYY-MM-DD
-    if (scanf_s(date, "%4d-%2d-%2d", &y, &m, &d) != 3)
+    if (sscanf(date, "%4d-%2d-%2d", &y, &m, &d) != 3) {
+        printf("Error: Invalid date format! Use YYYY-MM-DD.\n");
         return 0;
+    }
 
-    // =Checking valid range of years
-    if (y < 1900 || y > 2100) return 0;
-    if (m < 1 || m > 12) return 0;
-    if (d < 1 || d > 31) return 0;
-
-    // Days in a month maxium
-    int days_in_month[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
-
-	// Checking leap year for February
-    if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0))
-        days_in_month[1] = 29;
-
-    if (d > days_in_month[m - 1])
+    
+    if (y < 1900 || y > 2100) {
+        printf("Error: Year must be between 1900 and 2100.\n");
         return 0;
+    }
+
+    
+    if (m < 1 || m > 12) {
+        printf("Error: Month must be between 1 and 12.\n");
+        return 0;
+    }
+
+    
+    int max_day;
+
+    switch (m) {
+    case 2: {
+        int leap = (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+        max_day = leap ? 29 : 28;
+        break;
+    }
+    case 4: case 6: case 9: case 11:
+        max_day = 30;
+        break;
+    default:
+        max_day = 31;
+    }
+
+    if (d < 1 || d > max_day) {
+        printf("Error: Invalid day for this month.\n");
+        return 0;
+    }
 
     return 1;
 }
+
 
 
 void log_weight(float height_cm) {
@@ -57,14 +93,17 @@ void log_weight(float height_cm) {
 		printf("Please try again.\n");
         return;
     }
-    do {
+    while (1) {
         printf("Enter date (YYYY-MM-DD): ");
         scanf_s("%10s", date, (unsigned)_countof(date));
 
-        if (!is_valid_date(date)) {
-            printf("❌ Invalid date format or value. Try again.\n");
+        if (valid_date(date)) {
+            break;  
         }
-	} while (!is_valid_date(date));
+
+        printf("Please enter a valid date again.\n");
+    }
+
     add_weight(weight, date, height_cm);
 }
 
