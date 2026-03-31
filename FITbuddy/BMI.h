@@ -11,6 +11,7 @@ typedef struct {
 
 extern Weight_Entry history[MAX_ENTRIES];
 extern int entry_count;
+extern float current_bmi;
 
 // Function declarations
 void log_weight(float height_cm);
@@ -22,5 +23,6 @@ void save_weight_to_file();
 float add_weight(float weight, const char* date, float height_cm);
 void delete_weight(int index);
 float set_bmi_goal(float goal_weight, float height_cm);
+void get_ideal_weight_range(float height_cm, float* min_weight, float* max_weight);
 
 #endif

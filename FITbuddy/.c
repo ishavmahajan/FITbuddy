@@ -6,6 +6,7 @@
 
 Weight_Entry history[MAX_ENTRIES];
 int entry_count = 0;
+float current_bmi = 0.0f;
 
 float calculate_bmi(float weight_kg, float height_cm) {
     float height_m = height_cm / 100.0f;
@@ -118,7 +119,7 @@ float add_weight(float weight, const char* date, float height_cm) {
     e.bmi = calculate_bmi(weight, height_cm);
 
     strcpy_s(e.date, sizeof(e.date), date);
-
+    current_bmi = e.bmi;
     history[entry_count++] = e;
 
     printf("Added: %.1f kg on %s | BMI: %.2f (%s)\n",
@@ -155,11 +156,14 @@ void view_weight_history() {
 
 void load_weight_from_file() {
     FILE* f = fopen("Progress.txt", "r");
-    if (!f) return;
+    if (!f || f == NULL) {
+        printf("No file found");
+        return;
+    }
 
     entry_count = 0;
 
-    while (!feof(f)) {
+    while (entry_count < MAX_ENTRIES) {
         Weight_Entry e;
 
         if (fscanf_s(f, "%f %f %10s",
@@ -169,9 +173,20 @@ void load_weight_from_file() {
         {
             history[entry_count++] = e;
         }
+        else { break; }
     }
 
     fclose(f);
+
+    if(entry_count > 0) {
+        current_bmi = history[entry_count - 1].bmi;
+    }
+    else {
+        current_bmi = 0.0f;
+    }
+
+    printf("Data loaded successfully. \n");
+    printf("Current BMI: %.2f\n", current_bmi);
 }
 
 void save_weight_to_file() {
@@ -190,4 +205,10 @@ void save_weight_to_file() {
 
 float set_bmi_goal(float goal_weight, float height_cm) {
     return calculate_bmi(goal_weight, height_cm);
+}
+
+void get_ideal_weight_range(float height_cm, float* min_weight, float* max_weight) {
+    float height_m = height_cm / 100.0f;
+    *min_weight = 18.5f * (height_m * height_m);
+    *max_weight = 24.9f * (height_m * height_m);
 }
