@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stddef.h>
 #include "tips.h"
+#include "BMI.h"
 
 int main(int argc, char* argv[]) {
+    int choice = 0;
+    float height_cm = 170.0f;   // hard code height here
 
     /* Check command line argument */
     if (argc < 2) {
@@ -17,7 +21,6 @@ int main(int argc, char* argv[]) {
     /* Display random tip */
     display_random_tip(argv[1]);
 
-    int choice = 0;
     printf("Welcome to FITbuddy!\n");
 
     while (choice != 5) {
@@ -34,18 +37,23 @@ int main(int argc, char* argv[]) {
         case 1:
             printf("Calorie Tracker - Coming Soon\n");
             break;
+
         case 2:
             printf("Workout Tracker - Coming Soon\n");
             break;
+
         case 3:
-            printf("BMI & Weight - Coming Soon\n");
+            run_bmi_menu(&height_cm);
             break;
+
         case 4:
             printf("Weekly Report - Coming Soon\n");
             break;
+
         case 5:
             printf("Goodbye!\n");
             break;
+
         default:
             printf("Invalid choice. Try again.\n");
             break;
