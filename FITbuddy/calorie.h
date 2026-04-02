@@ -1,32 +1,34 @@
 #ifndef CALORIE_H
 #define CALORIE_H
 
-#define MAX_ENTRIES 500
+#define MAX_NAME 50
+#define MAX_DATE 11
 
-// Struct for one food entry
-struct FoodEntry
-{
-    char foodName[50];  // Name of the food
-    int calories;       // Calories of the food
-    char date[11];      // Date in YYYY-MM-DD format
-};
+typedef struct {
+    char foodName[MAX_NAME];
+    int calories;
+    char date[MAX_DATE]; // YYYY-MM-DD
+} FoodEntry;
 
-// Function declarations
-//void calorieMenu();
-void addFoodEntry();  // allows to add the food 
-void viewTodayCalories();  // intake calories for today 
-void viewCaloriesByDate();  
-void deleteFoodEntry();
-void setCalorieGoal();
-void viewCalorieGoalStatus();
+// Interactive functions
+void calorieMenu();              // Calorie tracker menu
+void addFoodEntry();             // Add food entry interactively
+void viewTodayCalories();        // Show calories for today
+void viewCaloriesByDate();       // Show calories for a specific date
+void deleteFoodEntry();          // Delete an entry interactively
+void setCalorieGoal();           // Set daily calorie goal
+void viewCalorieGoalStatus();    // View goal progress
 
-// functions for the progress report integration 
-int getTodayCalories();    // Return total calories for today
-int getCaloriesByDate(const char* date);  // return total calories for a specific date YYYY-MM-DD
-int getWeeklyCalories();   // returns total calories in the last 7 days
-int getMonthlyCalories();   // returns total calories in the last 30 days
+// Advanced/test-friendly function
+void addFoodEntryWithParams(const char* foodName, int calories, const char* date);
 
-// fiel handling 
+// Functions for progress report integration
+int getTodayCalories();                   // Total calories today
+int getCaloriesByDate(const char* date);  // Total calories by date
+int getWeeklyCalories();                  // Total last 7 days
+int getMonthlyCalories();                 // Total last 30 days
+
+// File handling
 void loadCaloriesFromFile();
 void saveCaloriesToFile();
 
