@@ -24,18 +24,43 @@ void addWorkout()
 	}
 
 	//User input
+	//Name Input(Clear buffer first)
+	while (getchar() != '\n' && getchar() != EOF);
 	printf("Enter workout name: ");
 	scanf(" %s", new_workout->exercise_name);
 
-	printf("Enter the Duration: ");
-	scanf("%d", &new_workout->duration_minutes);
+	// Duration Input with validation
+	do {
+		printf("Enter the Duration (mins): ");
+		if (scanf("%d", &new_workout->duration_minutes) != 1 || new_workout->duration_minutes <= 0) {
+			printf("Error: Duration must be a positive number.\n");
+			while (getchar() != '\n');
+		}
+		else {
+			break;
+		}
+	} while (1);
 
-	printf("1=low\n 2=medium\n 3=high\n ");
-	printf("Enter the intensity: ");
-	scanf("%d", &new_workout->intensity);
+	// Intensity Input with validation
+	int valid_intensity = 0;
+	while (!valid_intensity) {
+		printf("1=low\n2=medium\n3=high\n");
+		printf("Enter the intensity (1-3): ");
+		if (scanf("%d", &new_workout->intensity) == 1 &&
+			new_workout->intensity >= 1 &&
+			new_workout->intensity <= 3) {
+			valid_intensity = 1; // Exit loop
+		}
+		else {
+			printf("Error: Invalid input. Please enter 1, 2, or 3.\n");
+			// Clear buffer in case they typed a letter
+			while (getchar() != '\n');
+		}
+	}
 
+	
 	printf("Enter the date (YYYY-MM-DD): ");
-	scanf("%s", new_workout->date);
+	scanf("%10s", new_workout->date);
 
 	new_workout->calories_burned = calculate_calories_burned(new_workout->intensity, new_workout->duration_minutes);
 	printf("Success! You Burned approx:  %.2f\n", new_workout->calories_burned);
