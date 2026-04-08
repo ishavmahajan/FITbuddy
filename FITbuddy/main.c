@@ -1,8 +1,10 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stddef.h>
 #include "tips.h"
+#include "workout.h"
 #include "BMI.h"
 
 int main(int argc, char* argv[]) {
@@ -20,6 +22,7 @@ int main(int argc, char* argv[]) {
 
     /* Display random tip */
     display_random_tip(argv[1]);
+    load_workouts_from_file();
 
     printf("Welcome to FITbuddy!\n");
 
@@ -39,7 +42,9 @@ int main(int argc, char* argv[]) {
             break;
 
         case 2:
-            printf("Workout Tracker - Coming Soon\n");
+            printf("** Workout Tracker **\n");
+            addWorkout();
+            view_workouts();
             break;
 
         case 3:
@@ -51,6 +56,8 @@ int main(int argc, char* argv[]) {
             break;
 
         case 5:
+            save_workouts_to_file(); 
+            free_memory();
             printf("Goodbye!\n");
             break;
 

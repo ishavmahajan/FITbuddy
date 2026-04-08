@@ -30,6 +30,7 @@ extern "C" {
     float add_weight(float weight, const char* date, float height_cm);
     float set_bmi_goal(float goal_weight, float height_cm);
     void get_ideal_weight_range(float height_cm, float* min_weight, float* max_weight);
+    float get_latest_weight_kg();
 
 #ifdef __cplusplus
 }
