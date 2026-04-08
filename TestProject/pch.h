@@ -7,6 +7,14 @@
 #ifndef PCH_H
 #define PCH_H
 
+
+
 // add headers that you want to pre-compile here
+
+extern "C" {
+#include "../FITbuddy/workout.h"
+#include "../FITbuddy/BMI.h"
+#include "../FITbuddy/calorie.h"
+}
 
 #endif //PCH_H

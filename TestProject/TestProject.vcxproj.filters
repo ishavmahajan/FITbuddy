@@ -21,10 +21,10 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\FITbuddy\BMI.c">
+    <ClCompile Include="Calorie_UnitTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Calorie_UnitTests.cpp">
+    <ClCompile Include="test_workout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

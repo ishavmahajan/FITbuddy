@@ -3,7 +3,7 @@
 #define WORKOUT_H
 
 
-typedef struct {
+typedef struct Workout {
 
 	char exercise_name[100];
 	int duration_minutes; // in minutes
