@@ -363,6 +363,14 @@ extern "C" {
         } while (bmi_choice != 7);
     }
 
+    // using getter to be able to use this in other modules
+    float get_latest_weight_kg() {
+        if (entry_count > 0) {
+            return history[entry_count - 1].weight_kg;
+        }
+        return 70.0f; // Default weight (approx 154 lbs) if no history exists
+    }
+
 #ifdef __cplusplus
 }
 #endif

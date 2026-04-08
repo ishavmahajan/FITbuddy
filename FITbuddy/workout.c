@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "workout.h"
+#include "BMI.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -111,8 +112,11 @@ float calculate_calories_burned(int intensity, int duration_minutes) {
 		return 0; // Invalid intensity
 	}
 
-	// Calculating calories burned using the MET formula	
-	float kcal_per_minute = (met_value * 3.5 * DEFAULT_WEIGHT_KG) / 200; // Calories burned per minute
+	// Getting the live weight from the BMI module
+	float weight_kg = get_latest_weight_kg();
+
+	// Calculating calories burned using the MET formula
+	float kcal_per_minute = (met_value * 3.5 * weight_kg) / 200.0f; // Calories burned per minute
 	return kcal_per_minute * duration_minutes;
 	
 
