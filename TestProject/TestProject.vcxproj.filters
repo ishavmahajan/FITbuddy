@@ -24,6 +24,9 @@
     <ClCompile Include="..\FITbuddy\BMI.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Calorie_UnitTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
