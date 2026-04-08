@@ -32,4 +32,6 @@ int getMonthlyCalories();                 // Total last 30 days
 void loadCaloriesFromFile();
 void saveCaloriesToFile();
 
+void resetCalorieData();
+
 #endif

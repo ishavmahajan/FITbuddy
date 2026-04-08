@@ -246,6 +246,13 @@ int getMonthlyCalories() {
     return total;
 }
 
+void resetCalorieData() {
+    free(entries);
+    entries = NULL;
+    entryCount = 0;
+    capacity = 0;
+}
+
 // ===== Calorie Tracker Menu =====
 void calorieMenu() {
     int choice;
