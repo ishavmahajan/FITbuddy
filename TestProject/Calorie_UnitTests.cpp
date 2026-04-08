@@ -1,10 +1,5 @@
 ﻿#include "pch.h"
 #include "CppUnitTest.h"
-
-extern "C" {
-#include "../FITbuddy/calorie.h"
-}
-
 #include <ctime>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
