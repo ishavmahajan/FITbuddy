@@ -53,17 +53,23 @@ void view_workouts() {
 		return;
 	}
 
+	printf("\n==============================================================================\n");
+	printf("                          FITBUDDY: WORKOUT HISTORY                             \n");
+	printf("==============================================================================\n");
+	printf("%-12s | %-15s | %-8s | %-10s | %-10s\n", "DATE", "EXERCISE", "MINS", "INTENSITY", "CALORIES");
+	printf("-------------|-----------------|----------|------------|----------\n");
+
 	Workout* current = head;
 	while (current != NULL) {
-		printf(" Workout: %s | Duration: %d mins | Intensity: %d | Calories Burned: %.2f | Date: %s\n",
+		printf("%-12s | %-15s | %-8d | %-10d | %-10.2f\n",
+			current->date,
 			current->exercise_name,
 			current->duration_minutes,
 			current->intensity,
-			current->calories_burned,
-			current->date);
-
-		current = current->next; // moves to the next element/workout logged
+			current->calories_burned);
+		current = current->next;
 	}
+	printf("==============================================================================\n");
 }
 
 float calculate_calories_burned(int intensity, int duration_minutes) {
