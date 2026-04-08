@@ -1,0 +1,16 @@
+To integrate calorie tracker:
+
+1. Add:
+#include "calorie.h"
+
+2. In main():
+loadCaloriesFromFile();
+loadGoalFromFile();
+
+3. In menu:
+case 1:
+    calorieMenu();
+    break;
+
+4. Before exit:
+saveCaloriesToFile();

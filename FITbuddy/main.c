@@ -2,10 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stddef.h>
 #include "tips.h"
 #include "workout.h"
+#include "BMI.h"
 
 int main(int argc, char* argv[]) {
+    int choice = 0;
+    float height_cm = 170.0f;   // hard code height here
 
     /* Check command line argument */
     if (argc < 2) {
@@ -20,7 +24,6 @@ int main(int argc, char* argv[]) {
     display_random_tip(argv[1]);
     load_workouts_from_file();
 
-    int choice = 0;
     printf("Welcome to FITbuddy!\n");
 
     while (choice != 5) {
@@ -37,22 +40,27 @@ int main(int argc, char* argv[]) {
         case 1:
             printf("Calorie Tracker - Coming Soon\n");
             break;
+
         case 2:
             printf("** Workout Tracker **\n");
             addWorkout();
             view_workouts();
             break;
+
         case 3:
-            printf("BMI & Weight - Coming Soon\n");
+            run_bmi_menu(&height_cm);
             break;
+
         case 4:
             printf("Weekly Report - Coming Soon\n");
             break;
+
         case 5:
             save_workouts_to_file(); 
             free_memory();
             printf("Goodbye!\n");
             break;
+
         default:
             printf("Invalid choice. Try again.\n");
             break;
