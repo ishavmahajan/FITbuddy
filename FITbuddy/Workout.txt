@@ -1,0 +1,3 @@
+Workout curls 10 3 98.00 2026-02-01
+Workout pushups 10 3 98.00 2026-04-07
+Workout burpees 10 3 98.00 2026-04-07

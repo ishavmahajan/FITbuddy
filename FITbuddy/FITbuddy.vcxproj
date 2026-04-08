@@ -127,10 +127,12 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="test_calorie.c" />
     <ClCompile Include="Tips.c" />
+    <ClCompile Include="workout.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calorie.h" />
     <ClInclude Include="Tips.h" />
+    <ClInclude Include="workout.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
