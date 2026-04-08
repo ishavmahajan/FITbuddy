@@ -27,6 +27,9 @@
     <ClCompile Include="test_workout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="report_UnitTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">

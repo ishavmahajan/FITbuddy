@@ -99,8 +99,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\salmanimran\source\repos\FITbuddy\FITbuddy\x64\Debug;C:\Ravnoor\SEM2.ASS\Project_II_TeamBasedSoftDevelopment\FITbuddy\FITbuddy\x64\Debug;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>main.obj;calorie.obj;Tips.obj;workout.obj;BMI.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\BSCComputerScience\Semester2\TeamBasedProject\FITbuddy\FITbuddy\x64\Debug;C:\Users\salmanimran\source\repos\FITbuddy\FITbuddy\x64\Debug;C:\Ravnoor\SEM2.ASS\Project_II_TeamBasedSoftDevelopment\FITbuddy\FITbuddy\x64\Debug;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>main.obj;calorie.obj;Tips.obj;workout.obj;BMI.obj;report.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -164,6 +164,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="report_UnitTests.cpp" />
     <ClCompile Include="TestProject.cpp" />
     <ClCompile Include="test_workout.cpp" />
   </ItemGroup>

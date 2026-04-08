@@ -39,6 +39,9 @@
     <ClCompile Include="BMI.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="report.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calorie.h">
@@ -53,6 +56,9 @@
     <ClCompile Include="workout.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClInclude Include="report.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calorie.h">

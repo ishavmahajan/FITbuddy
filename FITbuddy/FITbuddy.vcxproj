@@ -126,6 +126,7 @@
     <ClCompile Include="BMI.c" />
     <ClCompile Include="calorie.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="report.c" />
     <ClCompile Include="test_calorie.c" />
     <ClCompile Include="Tips.c" />
     <ClCompile Include="workout.c" />
@@ -133,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="BMI.h" />
     <ClInclude Include="calorie.h" />
+    <ClInclude Include="report.h" />
     <ClInclude Include="Tips.h" />
     <ClInclude Include="workout.h" />
   </ItemGroup>

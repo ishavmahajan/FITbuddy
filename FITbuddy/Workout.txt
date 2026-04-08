@@ -1,1 +1,4 @@
+Workout Bicep 180 3 2016.00 2026-04-08
+Workout Pushups 10 3 112.00 2026-04-08
 Workout pushups 10 2 61.25 2026-05-10
+Workout Pushups 20 2 140.00 2026-04-08
