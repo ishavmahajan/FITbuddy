@@ -3,36 +3,40 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stddef.h>
+#include <windows.h>
+
 #include "tips.h"
 #include "workout.h"
 #include "BMI.h"
 #include "calorie.h"
 #include "report.h"
+#include "console_color.h"
 
 int main(int argc, char* argv[]) {
     int choice = 0;
     float height_cm = 170.0f;   // default height
 
-    /* Check command line argument */
     if (argc < 2) {
+        set_color(COLOR_ERROR);
         printf("Usage: FITbuddy.exe tips.txt\n");
+        set_color(COLOR_DEFAULT);
         return 1;
     }
 
-    /* Seed random number generator */
     srand((unsigned int)time(NULL));
 
-    /* Load saved data */
     load_workouts_from_file();
     load_weight_from_file();
     loadCaloriesFromFile();
 
-    /* Display random tip */
     display_random_tip(argv[1]);
 
+    set_color(COLOR_TITLE);
     printf("Welcome to FITbuddy!\n");
+    set_color(COLOR_DEFAULT);
 
     while (choice != 5) {
+        set_color(COLOR_MAIN_MENU);
         printf("\n--- MAIN MENU ---\n");
         printf("[1] Log Calorie Intake\n");
         printf("[2] Log Workout\n");
@@ -40,8 +44,11 @@ int main(int argc, char* argv[]) {
         printf("[4] View Weekly Report\n");
         printf("[5] Exit\n");
         printf("Enter choice: ");
+        set_color(COLOR_DEFAULT);
         if (scanf_s("%d", &choice) != 1) {
+            set_color(COLOR_ERROR);
             printf("Invalid input. Please enter a number.\n");
+            set_color(COLOR_DEFAULT);
             while (getchar() != '\n');
             choice = 0;
             continue;
@@ -49,12 +56,13 @@ int main(int argc, char* argv[]) {
 
         switch (choice) {
         case 1:
-            // Use your existing calorie module menu
             calorieMenu();
             break;
 
         case 2:
+            set_color(COLOR_MENU);
             printf("** Workout Tracker **\n");
+            set_color(COLOR_DEFAULT);
             addWorkout();
             view_workouts();
             save_workouts_to_file();
@@ -65,21 +73,22 @@ int main(int argc, char* argv[]) {
             break;
 
         case 4:
-            // New report feature
             generate_weekly_report();
             break;
 
         case 5:
-            // Save everything before exit
-
             save_weight_to_file();
             saveCaloriesToFile();
             free_memory();
+            set_color(COLOR_SUCCESS);
             printf("Goodbye!\n");
+            set_color(COLOR_DEFAULT);
             break;
 
         default:
+            set_color(COLOR_ERROR);
             printf("Invalid choice. Try again.\n");
+            set_color(COLOR_DEFAULT);
             break;
         }
     }

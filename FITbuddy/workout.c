@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "console_color.h"
 
 // Intensity 1 (Low)    : MET 3.5
 // Intensity 2 (Medium) : MET 5.0
@@ -17,18 +18,26 @@ void addWorkout()
 {
     Workout* new_workout = (Workout*)malloc(sizeof(Workout));
     if (new_workout == NULL) {
+        set_color(COLOR_ERROR);
         printf("Memory allocation failed!\n");
+        set_color(COLOR_DEFAULT);
         return;
     }
 
     while (getchar() != '\n' && getchar() != EOF);
+    set_color(COLOR_MENU);
     printf("Enter workout name: ");
+    set_color(COLOR_DEFAULT);
     scanf("%s", new_workout->exercise_name);
 
     do {
+        set_color(COLOR_MENU);
         printf("Enter the Duration (mins): ");
+        set_color(COLOR_DEFAULT);
         if (scanf("%d", &new_workout->duration_minutes) != 1 || new_workout->duration_minutes <= 0) {
+            set_color(COLOR_ERROR);
             printf("Error: Duration must be a positive number.\n");
+            set_color(COLOR_DEFAULT);
             while (getchar() != '\n');
         }
         else {
@@ -38,42 +47,56 @@ void addWorkout()
 
     int valid_intensity = 0;
     while (!valid_intensity) {
+        set_color(COLOR_MENU);
         printf("1=low\n2=medium\n3=high\n");
         printf("Enter the intensity (1-3): ");
+        set_color(COLOR_DEFAULT);
         if (scanf("%d", &new_workout->intensity) == 1 &&
             new_workout->intensity >= 1 &&
             new_workout->intensity <= 3) {
             valid_intensity = 1;
         }
         else {
+            set_color(COLOR_ERROR);
             printf("Error: Invalid input. Please enter 1, 2, or 3.\n");
+            set_color(COLOR_DEFAULT);
             while (getchar() != '\n');
         }
     }
 
+    set_color(COLOR_MENU);
     printf("Enter the date (YYYY-MM-DD): ");
+    set_color(COLOR_DEFAULT);
     scanf("%10s", new_workout->date);
 
     new_workout->calories_burned = calculate_calories_burned(new_workout->intensity, new_workout->duration_minutes);
+    set_color(COLOR_SUCCESS);
     printf("Success! You Burned approx: %.2f\n", new_workout->calories_burned);
+    set_color(COLOR_DEFAULT);
 
     new_workout->next = head;
     head = new_workout;
 
+    set_color(COLOR_SUCCESS);
     printf("Workout added successfully!\n");
+    set_color(COLOR_DEFAULT);
 }
 
 void view_workouts() {
     if (head == NULL) {
+        set_color(COLOR_ERROR);
         printf("No workouts found.\n");
+        set_color(COLOR_DEFAULT);
         return;
     }
 
+    set_color(COLOR_MENU);
     printf("\n==============================================================================\n");
     printf("                          FITBUDDY: WORKOUT HISTORY                             \n");
     printf("==============================================================================\n");
     printf("%-12s | %-15s | %-8s | %-10s | %-10s\n", "DATE", "EXERCISE", "MINS", "INTENSITY", "CALORIES");
     printf("-------------|-----------------|----------|------------|----------\n");
+    set_color(COLOR_DEFAULT);
 
     Workout* current = head;
     while (current != NULL) {
@@ -85,7 +108,9 @@ void view_workouts() {
             current->calories_burned);
         current = current->next;
     }
+    set_color(COLOR_MENU);
     printf("==============================================================================\n");
+    set_color(COLOR_DEFAULT);
 }
 
 float calculate_calories_burned(int intensity, int duration_minutes) {
@@ -170,7 +195,9 @@ void free_memory() {
         current = next_node;
     }
     head = NULL;
+    set_color(COLOR_SUCCESS);
     printf("Memory for workout list has been cleared.\n");
+    set_color(COLOR_DEFAULT);
 }
 
 float get_total_calories_burned() {

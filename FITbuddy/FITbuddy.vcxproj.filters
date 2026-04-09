@@ -59,6 +59,9 @@
     <ClInclude Include="report.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="console_color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calorie.h">

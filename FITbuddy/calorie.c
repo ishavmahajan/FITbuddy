@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include "calorie.h"
+#include "console_color.h"
 
 #define FILE_NAME "calories.txt"
 
@@ -25,7 +26,9 @@ static int inputInt(const char* prompt) {
     while (1) {
         printf("%s", prompt);
         if (scanf_s("%d%c", &value, &term, 1) != 2 || term != '\n') {
+            set_color(COLOR_ERROR);
             printf("Invalid input. Enter a number.\n");
+            set_color(COLOR_DEFAULT);
             while (getchar() != '\n');
         }
         else {
@@ -78,7 +81,9 @@ void saveCaloriesToFile() {
 // ===== Add Entries =====
 void addFoodEntry() {
     FoodEntry newEntry;
+    set_color(COLOR_MENU);
     printf("Enter food name: ");
+    set_color(COLOR_DEFAULT);
     scanf_s("%49s", newEntry.foodName, (unsigned)_countof(newEntry.foodName));
     newEntry.calories = lookupCalories(newEntry.foodName);
 
@@ -93,8 +98,10 @@ void addFoodEntry() {
     entries[entryCount++] = newEntry;
     saveCaloriesToFile();
 
+    set_color(COLOR_SUCCESS);
     printf("Food entry added: %s - %d calories on %s\n",
         newEntry.foodName, newEntry.calories, newEntry.date);
+    set_color(COLOR_DEFAULT);
 }
 
 // Test-friendly addition
@@ -111,7 +118,9 @@ void addFoodEntryWithParams(const char* foodName, int calories, const char* date
 // ===== View Functions =====
 void viewCaloriesByDate() {
     char date[MAX_DATE];
+    set_color(COLOR_MENU);
     printf("Enter date (YYYY-MM-DD): ");
+    set_color(COLOR_DEFAULT);
     scanf_s("%10s", date, (unsigned)_countof(date));
 
     int found = 0;
@@ -122,7 +131,11 @@ void viewCaloriesByDate() {
             found = 1;
         }
     }
-    if (!found) printf("No entries found for this date.\n");
+    if (!found) {
+        set_color(COLOR_ERROR);
+        printf("No entries found for this date.\n");
+        set_color(COLOR_DEFAULT);
+    }
 }
 
 void viewTodayCalories() {
@@ -134,21 +147,27 @@ void viewTodayCalories() {
         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 
     int total = 0;
+    set_color(COLOR_MENU);
     printf("Today's Entries:\n");
+    set_color(COLOR_DEFAULT);
     for (int i = 0; i < entryCount; i++) {
         if (strcmp(entries[i].date, today) == 0) {
             printf("%s - %d calories\n", entries[i].foodName, entries[i].calories);
             total += entries[i].calories;
         }
     }
+    set_color(COLOR_MENU);
     printf("Total Calories Today: %d\n", total);
+    set_color(COLOR_DEFAULT);
 }
 
 // ===== Delete Entry =====
 void deleteFoodEntry() {
     int index = inputInt("Enter entry index to delete: ");
     if (index < 1 || index > entryCount) {
+        set_color(COLOR_ERROR);
         printf("Invalid index.\n");
+        set_color(COLOR_DEFAULT);
         return;
     }
 
@@ -157,13 +176,17 @@ void deleteFoodEntry() {
     }
     entryCount--;
     saveCaloriesToFile();
+    set_color(COLOR_SUCCESS);
     printf("Entry deleted successfully.\n");
+    set_color(COLOR_DEFAULT);
 }
 
 // ===== Goal Functions =====
 void setCalorieGoal() {
     calorieGoal = inputInt("Enter daily calorie goal: ");
+    set_color(COLOR_SUCCESS);
     printf("Goal set to %d calories.\n", calorieGoal);
+    set_color(COLOR_DEFAULT);
 }
 
 int getCaloriesByDate(const char* date) {
@@ -187,15 +210,25 @@ int getTodayCalories() {
 
 void viewCalorieGoalStatus() {
     if (calorieGoal == 0) {
+        set_color(COLOR_ERROR);
         printf("No goal set.\n");
+        set_color(COLOR_DEFAULT);
         return;
     }
     int todayCalories = getTodayCalories();
+    set_color(COLOR_MENU);
     printf("Goal: %d | Consumed: %d\n", calorieGoal, todayCalories);
-    if (todayCalories > calorieGoal)
+    set_color(COLOR_DEFAULT);
+    if (todayCalories > calorieGoal) {
+        set_color(COLOR_ERROR);
         printf("You exceeded your goal.\n");
-    else
+        set_color(COLOR_DEFAULT);
+    }
+    else {
+        set_color(COLOR_SUCCESS);
         printf("You are within your goal.\n");
+        set_color(COLOR_DEFAULT);
+    }
 }
 
 int getWeeklyCalories() {
@@ -257,6 +290,7 @@ void resetCalorieData() {
 void calorieMenu() {
     int choice;
     do {
+        set_color(COLOR_MENU);
         printf("\n===== Calorie Tracker =====\n");
         printf("1. Add Food Entry\n");
         printf("2. View Today's Calories\n");
@@ -266,6 +300,7 @@ void calorieMenu() {
         printf("6. View Goal Status\n");
         printf("7. Back to Main Menu\n");
         printf("Enter choice: ");
+        set_color(COLOR_DEFAULT);
         choice = inputInt("");
 
         switch (choice) {
@@ -288,10 +323,14 @@ void calorieMenu() {
             viewCalorieGoalStatus();
             break;
         case 7:
+            set_color(COLOR_SUCCESS);
             printf("Returning to main menu...\n");
+            set_color(COLOR_DEFAULT);
             break;
         default:
+            set_color(COLOR_ERROR);
             printf("Invalid choice.\n");
+            set_color(COLOR_DEFAULT);
             break;
         }
     } while (choice != 7);

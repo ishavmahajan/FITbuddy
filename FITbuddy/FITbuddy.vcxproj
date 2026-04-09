@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="BMI.h" />
     <ClInclude Include="calorie.h" />
+    <ClInclude Include="console_color.h" />
     <ClInclude Include="report.h" />
     <ClInclude Include="Tips.h" />
     <ClInclude Include="workout.h" />

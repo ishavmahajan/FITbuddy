@@ -12,7 +12,7 @@ extern "C" {
     typedef struct {
         float weight_kg;
         float bmi;
-        char  date[11]; /* YYYY-MM-DD, 10 chars + null */
+        char date[11]; /* YYYY-MM-DD, 10 chars + null */
     } Weight_Entry;
 
     extern Weight_Entry history[MAX_ENTRIES];
