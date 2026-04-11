@@ -1,36 +1,45 @@
-#ifndef CALORIE_H
+﻿#ifndef CALORIE_H
 #define CALORIE_H
 
 #define MAX_NAME 50
 #define MAX_DATE 11
 
+// 🎨 Colors
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define BOLD "\033[1m"
+#define RESET "\033[0m"
+
 typedef struct {
     char foodName[MAX_NAME];
     int calories;
-    char date[MAX_DATE]; // YYYY-MM-DD
+    char date[MAX_DATE];
 } FoodEntry;
 
-// Interactive functions
-void calorieMenu(); // Calorie tracker menu
-void addFoodEntry(); // Add food entry interactively
-void viewTodayCalories(); // Show calories for today
-void viewCaloriesByDate(); // Show calories for a specific date
-void deleteFoodEntry(); // Delete an entry interactively
-void setCalorieGoal(); // Set daily calorie goal
-void viewCalorieGoalStatus(); // View goal progress
+// Core functions
+void calorieMenu();
+void addFoodEntry();
+void viewTodayCalories();
+void viewCaloriesByDate();
+void deleteFoodEntry();
+void setCalorieGoal();
+void viewCalorieGoalStatus();
 
-// Advanced/test-friendly function
+// Extra
 void addFoodEntryWithParams(const char* foodName, int calories, const char* date);
 
-// Functions for progress report integration
-int getTodayCalories(); // Total calories today
-int getCaloriesByDate(const char* date); // Total calories by date
-int getWeeklyCalories(); // Total last 7 days
-int getMonthlyCalories(); // Total last 30 days
+// Stats
+int getTodayCalories();
+int getCaloriesByDate(const char* date);
+int getWeeklyCalories();
+int getMonthlyCalories();
 
 // File handling
 void loadCaloriesFromFile();
 void saveCaloriesToFile();
+void loadGoalFromFile();
 
 void resetCalorieData();
 
