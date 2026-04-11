@@ -28,6 +28,7 @@ int main(int argc, char* argv[]) {
     load_workouts_from_file();
     load_weight_from_file();
     loadCaloriesFromFile();
+    loadGoalFromFile();
 
     display_random_tip(argv[1]);
 
