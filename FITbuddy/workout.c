@@ -5,17 +5,103 @@
 #include <stdlib.h>
 #include <string.h>
 #include "console_color.h"
-
-// Intensity 1 (Low)    : MET 3.5
-// Intensity 2 (Medium) : MET 5.0
-// Intensity 3 (High)   : MET 8.0
-
-#define DEFAULT_WEIGHT_KG 70.0
+#include <time.h>
 
 Workout* head = NULL;
 
-void addWorkout()
-{
+// created to clear buffer safely for both user inputs and automated tests
+void clear_input_buffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+// new feature added: delete workout from history
+void deleteWorkout() {
+    if (head == NULL) {
+        set_color(COLOR_ERROR);
+        printf("No workouts to delete.\n");
+        set_color(COLOR_DEFAULT);
+        return;
+    }
+
+    char target_name[50];
+    set_color(COLOR_MENU);
+    printf("Enter the name of the exercise to delete: ");
+    set_color(COLOR_DEFAULT);
+    scanf("%49s", target_name);
+    clear_input_buffer();
+
+    Workout* current = head, * prev = NULL;
+
+    while (current != NULL) {
+        if (strcmp(current->exercise_name, target_name) == 0) {
+            if (prev == NULL) {
+                head = current->next;
+            }
+            else {
+                prev->next = current->next;
+            }
+            free(current);
+            set_color(COLOR_SUCCESS);
+            printf("Workout '%s' deleted successfully!\n", target_name);
+            set_color(COLOR_DEFAULT);
+            save_workouts_to_file(); // Updates the file immediately
+            return;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    set_color(COLOR_ERROR);
+    printf("Workout '%s' not found.\n", target_name);
+    set_color(COLOR_DEFAULT);
+}
+
+// new feature added: workout sub menu
+void workoutMenu() {
+    int subChoice = 0;
+    while (subChoice != 4) {
+        set_color(COLOR_TITLE);
+        printf("\n** WORKOUT MANAGEMENT **\n");
+        set_color(COLOR_MENU);
+        printf("[1] Log New Workout\n");
+        printf("[2] View Workout History\n");
+        printf("[3] Delete a Workout\n");
+        printf("[4] Back to Main Menu\n");
+        printf("Selection: ");
+        set_color(COLOR_DEFAULT);
+
+        if (scanf("%d", &subChoice) != 1) {
+            if (feof(stdin)) return; //  for automated testing
+            set_color(COLOR_ERROR);
+            printf("Invalid input. Use numbers 1-4.\n");
+            set_color(COLOR_DEFAULT);
+            clear_input_buffer();
+            continue;
+        }
+
+        switch (subChoice) {
+        case 1:
+            addWorkout();
+            save_workouts_to_file();
+            break;
+        case 2:
+            view_workouts();
+            break;
+        case 3:
+            deleteWorkout();
+            break;
+        case 4:
+            return;
+        default:
+            set_color(COLOR_ERROR);
+            printf("Invalid choice.\n");
+            set_color(COLOR_DEFAULT);
+        }
+    }
+}
+
+void addWorkout() {
     Workout* new_workout = (Workout*)malloc(sizeof(Workout));
     if (new_workout == NULL) {
         set_color(COLOR_ERROR);
@@ -24,63 +110,66 @@ void addWorkout()
         return;
     }
 
-    while (getchar() != '\n' && getchar() != EOF);
+    clear_input_buffer();
+
     set_color(COLOR_MENU);
     printf("Enter workout name: ");
     set_color(COLOR_DEFAULT);
-    scanf("%s", new_workout->exercise_name);
+    scanf("%49s", new_workout->exercise_name);
+    clear_input_buffer();
 
+	// 1. Duration Input Validation
     do {
         set_color(COLOR_MENU);
         printf("Enter the Duration (mins): ");
         set_color(COLOR_DEFAULT);
         if (scanf("%d", &new_workout->duration_minutes) != 1 || new_workout->duration_minutes <= 0) {
+            if (feof(stdin)) { free(new_workout); return; }
             set_color(COLOR_ERROR);
-            printf("Error: Duration must be a positive number.\n");
+            printf("Error: Positive number required.\n");
             set_color(COLOR_DEFAULT);
-            while (getchar() != '\n');
+            clear_input_buffer();
         }
         else {
             break;
         }
     } while (1);
 
+    // 2. Intensity Input Validation
     int valid_intensity = 0;
     while (!valid_intensity) {
         set_color(COLOR_MENU);
-        printf("1=low\n2=medium\n3=high\n");
-        printf("Enter the intensity (1-3): ");
+        printf("1=low, 2=medium, 3=high\nEnter intensity (1-3): ");
         set_color(COLOR_DEFAULT);
         if (scanf("%d", &new_workout->intensity) == 1 &&
-            new_workout->intensity >= 1 &&
-            new_workout->intensity <= 3) {
+            new_workout->intensity >= 1 && new_workout->intensity <= 3) {
             valid_intensity = 1;
         }
         else {
+            if (feof(stdin)) { free(new_workout); return; }
             set_color(COLOR_ERROR);
-            printf("Error: Invalid input. Please enter 1, 2, or 3.\n");
+            printf("Error: Invalid intensity.\n");
             set_color(COLOR_DEFAULT);
-            while (getchar() != '\n');
+            clear_input_buffer();
         }
     }
 
-    set_color(COLOR_MENU);
-    printf("Enter the date (YYYY-MM-DD): ");
-    set_color(COLOR_DEFAULT);
-    scanf("%10s", new_workout->date);
+    // 3.Ttakes automatic dates
+    time_t t = time(NULL);
+    struct tm* tm_info = localtime(&t);
+    strftime(new_workout->date, sizeof(new_workout->date), "%Y-%m-%d", tm_info);
 
+    // 4. Calculations and Linking
     new_workout->calories_burned = calculate_calories_burned(new_workout->intensity, new_workout->duration_minutes);
-    set_color(COLOR_SUCCESS);
-    printf("Success! You Burned approx: %.2f\n", new_workout->calories_burned);
-    set_color(COLOR_DEFAULT);
 
     new_workout->next = head;
     head = new_workout;
 
     set_color(COLOR_SUCCESS);
-    printf("Workout added successfully!\n");
+    printf("Workout added successfully! (%.2f kcal)\n", new_workout->calories_burned);
     set_color(COLOR_DEFAULT);
 }
+
 
 void view_workouts() {
     if (head == NULL) {

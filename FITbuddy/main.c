@@ -46,12 +46,22 @@ int main(int argc, char* argv[]) {
         printf("Enter choice: ");
         set_color(COLOR_DEFAULT);
         if (scanf_s("%d", &choice) != 1) {
-            set_color(COLOR_ERROR);
-            printf("Invalid input. Please enter a number.\n");
-            set_color(COLOR_DEFAULT);
-            while (getchar() != '\n');
-            choice = 0;
-            continue;
+            if (feof(stdin)) {
+                // if the test file ends, exit the loop naturally
+                choice = 5;
+            }
+            else {
+                set_color(COLOR_ERROR);
+                printf("Invalid input. Enter a number.\n");
+                set_color(COLOR_DEFAULT);
+
+                // Clear buffer properly for both humans and automated tests
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF);
+
+                choice = 0;
+                continue;
+            }
         }
 
         switch (choice) {
@@ -63,9 +73,7 @@ int main(int argc, char* argv[]) {
             set_color(COLOR_MENU);
             printf("** Workout Tracker **\n");
             set_color(COLOR_DEFAULT);
-            addWorkout();
-            view_workouts();
-            save_workouts_to_file();
+            workoutMenu();
             break;
 
         case 3:
