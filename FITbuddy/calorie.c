@@ -7,6 +7,12 @@
 
 #define FILE_NAME "calories.txt"
 
+
+static void clear_input_buffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 static FoodEntry* entries = NULL;
 static int entryCount = 0;
 static int capacity = 0;
@@ -22,16 +28,21 @@ static void ensureCapacity() {
 
 static int inputInt(const char* prompt) {
     int value;
-    char term;
     while (1) {
         printf("%s", prompt);
-        if (scanf_s("%d%c", &value, &term, 1) != 2 || term != '\n') {
+        if (scanf_s("%d", &value) != 1) {
+            if (feof(stdin)) return 7; // Force exit to menu if test ends
+
             set_color(COLOR_ERROR);
             printf("Invalid input. Enter a number.\n");
             set_color(COLOR_DEFAULT);
-            while (getchar() != '\n');
+
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF); // Clear buffer
         }
         else {
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
             return value;
         }
     }
@@ -85,6 +96,7 @@ void addFoodEntry() {
     printf("Enter food name: ");
     set_color(COLOR_DEFAULT);
     scanf_s("%49s", newEntry.foodName, (unsigned)_countof(newEntry.foodName));
+    clear_input_buffer();
     newEntry.calories = lookupCalories(newEntry.foodName);
 
     // Set today's date

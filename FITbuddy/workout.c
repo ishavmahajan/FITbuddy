@@ -10,7 +10,7 @@
 Workout* head = NULL;
 
 // created to clear buffer safely for both user inputs and automated tests
-void clear_input_buffer() {
+static void clear_input_buffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
@@ -28,8 +28,10 @@ void deleteWorkout() {
     set_color(COLOR_MENU);
     printf("Enter the name of the exercise to delete: ");
     set_color(COLOR_DEFAULT);
-    scanf("%49s", target_name);
-    clear_input_buffer();
+    if (scanf_s("%49s", target_name, (unsigned)_countof(target_name)) != 1) {
+        if (feof(stdin)) return;
+    }
+    
 
     Workout* current = head, * prev = NULL;
 
@@ -71,7 +73,7 @@ void workoutMenu() {
         printf("Selection: ");
         set_color(COLOR_DEFAULT);
 
-        if (scanf("%d", &subChoice) != 1) {
+        if (scanf_s("%d", &subChoice) != 1) {
             if (feof(stdin)) return; //  for automated testing
             set_color(COLOR_ERROR);
             printf("Invalid input. Use numbers 1-4.\n");
@@ -110,12 +112,12 @@ void addWorkout() {
         return;
     }
 
-    clear_input_buffer();
+    
 
     set_color(COLOR_MENU);
     printf("Enter workout name: ");
     set_color(COLOR_DEFAULT);
-    scanf("%49s", new_workout->exercise_name);
+    scanf_s("%49s", new_workout->exercise_name, (unsigned)_countof(new_workout->exercise_name));
     clear_input_buffer();
 
 	// 1. Duration Input Validation
@@ -123,7 +125,7 @@ void addWorkout() {
         set_color(COLOR_MENU);
         printf("Enter the Duration (mins): ");
         set_color(COLOR_DEFAULT);
-        if (scanf("%d", &new_workout->duration_minutes) != 1 || new_workout->duration_minutes <= 0) {
+        if (scanf_s("%d", &new_workout->duration_minutes) != 1 || new_workout->duration_minutes <= 0) {
             if (feof(stdin)) { free(new_workout); return; }
             set_color(COLOR_ERROR);
             printf("Error: Positive number required.\n");
@@ -141,7 +143,7 @@ void addWorkout() {
         set_color(COLOR_MENU);
         printf("1=low, 2=medium, 3=high\nEnter intensity (1-3): ");
         set_color(COLOR_DEFAULT);
-        if (scanf("%d", &new_workout->intensity) == 1 &&
+        if (scanf_s("%d", &new_workout->intensity) == 1 &&
             new_workout->intensity >= 1 && new_workout->intensity <= 3) {
             valid_intensity = 1;
         }

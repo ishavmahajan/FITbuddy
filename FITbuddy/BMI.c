@@ -92,7 +92,7 @@ extern "C" {
         FILE* f = fopen("Progress.txt", "r");
         if (!f) {
             set_color(COLOR_ERROR);
-            printf("No file found");
+            printf("No previous progress file found.\n");
             set_color(COLOR_DEFAULT);
             return;
         }
@@ -179,6 +179,7 @@ extern "C" {
 
         while (1) {
             if (fgets(line, sizeof(line), stdin) == NULL) {
+                if (feof(stdin)) return;
                 set_color(COLOR_ERROR);
                 printf("Invalid input.\n");
                 set_color(COLOR_DEFAULT);
@@ -366,7 +367,11 @@ extern "C" {
             printf("7. Exit\n");
             printf("Choose: ");
             set_color(COLOR_DEFAULT);
-            scanf_s("%d", &bmi_choice);
+            if (scanf_s("%d", &bmi_choice) != 1) {
+                if (feof(stdin)) return; // Escape for tests
+                int c; while ((c = getchar()) != '\n' && c != EOF);
+                continue;
+            }
 
             switch (bmi_choice) {
             case 1:

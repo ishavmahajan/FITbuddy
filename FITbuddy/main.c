@@ -16,20 +16,16 @@ int main(int argc, char* argv[]) {
     int choice = 0;
     float height_cm = 170.0f;   // default height
 
-    if (argc < 2) {
-        set_color(COLOR_ERROR);
-        printf("Usage: FITbuddy.exe tips.txt\n");
-        set_color(COLOR_DEFAULT);
-        return 1;
-    }
-
     srand((unsigned int)time(NULL));
 
     load_workouts_from_file();
     load_weight_from_file();
     loadCaloriesFromFile();
 
-    display_random_tip(argv[1]);
+   
+    if (argc >= 2) {
+        display_random_tip(argv[1]);
+    }
 
     set_color(COLOR_TITLE);
     printf("Welcome to FITbuddy!\n");

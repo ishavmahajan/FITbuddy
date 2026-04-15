@@ -20,18 +20,19 @@ void display_random_tip(const char* filename) {
         total++;
     }
 
-    int chosen = rand() % total;
-
-    rewind(file);
-    int current = 0;
-    while (fgets(line, sizeof(line), file) != NULL) {
-        if (current == chosen) {
-            set_color(COLOR_TIP);
-            printf("Tip of the Day: %s\n", line);
-            set_color(COLOR_DEFAULT);
-            break;
+    if (total > 0) {
+        int chosen = rand() % total;
+        rewind(file);
+        int current = 0;
+        while (fgets(line, sizeof(line), file) != NULL) {
+            if (current == chosen) {
+                set_color(COLOR_TIP);
+                printf("Tip of the Day: %s\n", line);
+                set_color(COLOR_DEFAULT);
+                break;
+            }
+            current++;
         }
-        current++;
     }
 
     fclose(file);

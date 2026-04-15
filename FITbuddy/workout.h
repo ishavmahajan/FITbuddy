@@ -19,5 +19,7 @@ void save_workouts_to_file(void);
 void load_workouts_from_file(void);
 void free_memory(void);
 float get_total_calories_burned(void);
+void workoutMenu();
+void deleteWorkout();
 
 #endif
