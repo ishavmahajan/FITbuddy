@@ -10,6 +10,17 @@ namespace CalorieModuleTests
     {
     public:
 
+        static void formatDateOffset(char* buffer, size_t size, int daysOffset)
+        {
+            time_t t = time(NULL) + (daysOffset * 24 * 60 * 60);
+            struct tm tmLocal;
+            localtime_s(&tmLocal, &t);
+            sprintf_s(buffer, size, "%04d-%02d-%02d",
+                tmLocal.tm_year + 1900,
+                tmLocal.tm_mon + 1,
+                tmLocal.tm_mday);
+        }
+
         // Helper to reset state BEFORE each test
         TEST_METHOD_INITIALIZE(Setup)
         {
@@ -67,8 +78,10 @@ namespace CalorieModuleTests
 
         TEST_METHOD(Test_WeeklyCalories)
         {
-            // Use a recent date (adjust if needed)
-            addFoodEntryWithParams("egg", 70, "2026-04-07");
+            char recentDate[11];
+            formatDateOffset(recentDate, sizeof(recentDate), -2);
+
+            addFoodEntryWithParams("egg", 70, recentDate);
 
             int total = getWeeklyCalories();
 

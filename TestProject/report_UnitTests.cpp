@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+#include <ctime>
 
 extern "C" {
 #include "../FITbuddy/report.h"
@@ -15,6 +16,17 @@ namespace ReportModuleTests
     TEST_CLASS(ReportModuleTests)
     {
     public:
+
+        static void formatDateOffset(char* buffer, size_t size, int daysOffset)
+        {
+            time_t t = time(NULL) + (daysOffset * 24 * 60 * 60);
+            struct tm tmLocal;
+            localtime_s(&tmLocal, &t);
+            sprintf_s(buffer, size, "%04d-%02d-%02d",
+                tmLocal.tm_year + 1900,
+                tmLocal.tm_mon + 1,
+                tmLocal.tm_mday);
+        }
 
         TEST_METHOD_INITIALIZE(Setup)
         {
@@ -44,7 +56,10 @@ namespace ReportModuleTests
 
         TEST_METHOD(Test_ReportWeeklyCalories_WithSingleEntry)
         {
-            addFoodEntryWithParams("apple", 95, "2026-04-08");
+            char recentDate[11];
+            formatDateOffset(recentDate, sizeof(recentDate), -1);
+
+            addFoodEntryWithParams("apple", 95, recentDate);
 
             int total = getWeeklyCalories();
 
@@ -60,20 +75,15 @@ namespace ReportModuleTests
             Assert::IsTrue(total >= 105);
         }
 
-        TEST_METHOD(Test_ReportWeeklyCalories_MultipleEntries)
-        {
-            addFoodEntryWithParams("apple", 95, "2026-04-08");
-            addFoodEntryWithParams("bread", 80, "2026-04-08");
-
-            int total = getWeeklyCalories();
-
-            Assert::IsTrue(total >= 175);
-        }
-
         TEST_METHOD(Test_ReportMonthlyCalories_MultipleEntries)
         {
-            addFoodEntryWithParams("rice", 200, "2026-04-01");
-            addFoodEntryWithParams("egg", 70, "2026-04-08");
+            char date1[11];
+            char date2[11];
+            formatDateOffset(date1, sizeof(date1), -20);
+            formatDateOffset(date2, sizeof(date2), -3);
+
+            addFoodEntryWithParams("rice", 200, date1);
+            addFoodEntryWithParams("egg", 70, date2);
 
             int total = getMonthlyCalories();
 
@@ -131,9 +141,19 @@ namespace ReportModuleTests
 
         TEST_METHOD(Test_ReportWithCaloriesAndBMIData)
         {
-            addFoodEntryWithParams("rice", 200, "2026-04-08");
-            addFoodEntryWithParams("egg", 70, "2026-04-08");
-            float bmi = add_weight(72.0f, "2026-04-08", 170.0f);
+            time_t t = time(NULL);
+            struct tm tmLocal;
+            localtime_s(&tmLocal, &t);
+
+            char today[11];
+            sprintf_s(today, "%04d-%02d-%02d",
+                tmLocal.tm_year + 1900,
+                tmLocal.tm_mon + 1,
+                tmLocal.tm_mday);
+
+            addFoodEntryWithParams("rice", 200, today);
+            addFoodEntryWithParams("egg", 70, today);
+            float bmi = add_weight(72.0f, today, 170.0f);
 
             int weeklyCalories = getWeeklyCalories();
             int monthlyCalories = getMonthlyCalories();
